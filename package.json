@@ -11,6 +11,7 @@
     "core-js": "^3.6.5",
     "keycloak-js": "^15.0.2",
     "leaflet": "^1.7.1",
+    "leaflet.heat": "^0.2.0",
     "node-sass": "^6.0.1",
     "sass-loader": "^10",
     "vue": "^2.6.11",

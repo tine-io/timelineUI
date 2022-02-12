@@ -2,7 +2,7 @@
   <v-row>
     <v-col> </v-col>
     <v-col style="max-width: 170px">
-      <v-menu :close-on-content-click="true" offset-y min-width="auto">
+      <v-menu :close-on-content-click="false" offset-y min-width="auto">
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
             solo
