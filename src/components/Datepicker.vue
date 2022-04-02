@@ -16,7 +16,6 @@
         </template>
         <v-date-picker
           v-model="date"
-          @input="menu2 = false"
           :allowed-dates="allowedDates"
         ></v-date-picker>
       </v-menu>
@@ -32,9 +31,6 @@ export default {
     date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
       .substr(0, 10),
-    menu: false,
-    modal: false,
-    menu2: false,
   }),
   methods: {
     allowedDates(val) {

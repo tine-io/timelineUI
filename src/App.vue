@@ -1,6 +1,5 @@
 <template>
   <v-app>
-
     <!-- app-bar -->
     <v-app-bar
       app
@@ -10,7 +9,6 @@
       color="#6A76AB"
       dark
       src="@/assets/triangles.svg"
-      scroll-target="#scrolling-techniques-6"
     >
       <template v-slot:img="{ props }">
         <v-img
@@ -19,13 +17,13 @@
         ></v-img>
       </template>
 
-      <v-app-bar-nav-icon  @click="collapse"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="collapse"></v-app-bar-nav-icon>
 
       <div>Tine</div>
 
       <v-spacer></v-spacer>
 
-      <v-btn v-if="collapseOnScroll"  @click="logout"> logout </v-btn>
+      <v-btn v-if="collapseOnScroll" @click="logout"> logout </v-btn>
 
       <template v-slot:extension>
         <v-tabs align-with-title>
@@ -85,6 +83,11 @@ export default {
   },
   beforeMount() {
     this.isAuthenticated();
+  },
+  mounted: function () {
+    window.setInterval(() => {
+      Vue.$keycloak.updateToken(100);
+    }, 30000);
   },
 };
 </script>

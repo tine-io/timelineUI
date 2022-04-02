@@ -1,15 +1,15 @@
 <template>
-  <timeline />
+<v-sheet
+      id="scrolling-techniques-6"
+      class="overflow-y-auto"
+    >
+      <v-container style="height: 1000px;"></v-container>
+      <div>TimeLine</div>
+    </v-sheet>
 </template>
 
 <script>
-import Timeline from "../components/Timeline";
-
 export default {
-  name: "TimelineView",
-
-  components: {
-    Timeline,
-  },
+  name: "Timeline"
 };
 </script>
