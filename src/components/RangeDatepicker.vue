@@ -23,7 +23,7 @@
 export default {
   name: "Datepicker",
   data: () => ({
-    dates: [],
+    dates: [new Date(Date.now()).toISOString().substr(0, 10), new Date(Date.now()).toISOString().substr(0, 10)],
   }),
   methods: {
     allowedDates(val) {

@@ -6,7 +6,7 @@
     <v-row id="row1" justify="space-between">
       <v-col cols="1"> </v-col>
       <v-col id="rangeDatepicker" cols="10">
-        <rangeDatepicker @dateChange="getDates"> </rangeDatepicker>
+        <rangeDatepicker @dateChange="pickerDatesChanged"> </rangeDatepicker>
       </v-col>
       <v-col id="slider" cols="1">
         <v-card style="max-width: 50px" >
@@ -49,9 +49,7 @@ export default {
   },
   data: () => ({
     intensity: 0.1,
-    latlngs: [
-      [52.547627, 13.446561, 0.1]
-    ],
+    latlngs: [],
   }),
   methods: {
     async sliderEvent(event){
@@ -60,10 +58,13 @@ export default {
       )
       this.$refs.heatmapComp.setLatLngs(this.latlngs)
     },
-    async getDates(event) {
-      console.log(event)
+    pickerDatesChanged(event){
       var startDate = new Date(event[0]);
       var endDate = new Date(event[1]);
+      this.setDates(startDate, endDate)
+    },
+    async setDates(startDate, endDate) {
+
       startDate.setHours(0,0,0,0);
       endDate.setHours(23,59,59,999);
       updateToken();
@@ -76,7 +77,6 @@ export default {
         locations = JSON.parse(result)["locations"];
       });
       this.latlngs = [];
-      console.log(locations)
       locations.forEach((element) => {
         this.latlngs.push([
           element["point"]["coordinates"][0] / 10000000,
@@ -86,6 +86,9 @@ export default {
       });
     },
   },
+ beforeMount(){
+    this.setDates(new Date(Date.now()), new Date(Date.now()))
+ },
 };
 </script>
 
