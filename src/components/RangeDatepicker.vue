@@ -1,7 +1,4 @@
 <template>
-  <v-row>
-    <v-col> </v-col>
-    <v-col style="max-width: 310px">
       <v-menu :close-on-content-click="false" offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
@@ -20,9 +17,6 @@
           :allowed-dates="allowedDates"
         ></v-date-picker>
       </v-menu>
-    </v-col>
-    <v-col> </v-col>
-  </v-row>
 </template>
 
 <script>

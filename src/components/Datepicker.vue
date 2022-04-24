@@ -1,29 +1,19 @@
 <template>
-  <v-row>
-    <v-col> </v-col>
-    <v-col style="max-width: 170px">
-      <v-menu :close-on-content-click="false" offset-y min-width="auto">
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            solo
-            v-model="date"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-            width="50"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="date"
-          :allowed-dates="allowedDates"
-        ></v-date-picker>
-      </v-menu>
-    </v-col>
-    <v-col> </v-col>
-  </v-row>
+  <v-menu :close-on-content-click="false" offset-y min-width="auto">
+    <template v-slot:activator="{ on, attrs }">
+      <v-text-field
+        solo
+        v-model="date"
+        prepend-icon="mdi-calendar"
+        readonly
+        v-bind="attrs"
+        v-on="on"
+        width="50"
+      ></v-text-field>
+    </template>
+    <v-date-picker v-model="date" :allowed-dates="allowedDates"></v-date-picker>
+  </v-menu>
 </template>
-
 <script>
 export default {
   name: "Datepicker",
