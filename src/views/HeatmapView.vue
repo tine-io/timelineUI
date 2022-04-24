@@ -90,8 +90,6 @@ export default {
     async getDates(event) {
       var startDate = new Date(event[0]);
       var endDate = new Date(event[1]);
-      console.log(startDate.getTime());
-      console.log(endDate.getTime());
       updateToken();
       var locations;
       await getLocationsByTimerange(
@@ -103,8 +101,9 @@ export default {
       });
       this.latlngs = [];
       locations.forEach(element => {
-        this.latlngs.push([element['point']['coordinates'][1], element['point']['coordinates'][0], 0.1])
+        this.latlngs.push([element['point']['coordinates'][0]/10000000, element['point']['coordinates'][1]/10000000, 0.1])
       });
+      console.log(this.latlngs)
     },
   },
 };
