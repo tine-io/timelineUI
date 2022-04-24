@@ -2,7 +2,7 @@
   <div id="scrolling-techniques-6">
     <v-row id="row1" dense>
       <v-col cols="3" id="rangeDatepicker">
-        <rangeDatepicker @dateChange="getDates"> </rangeDatepicker>
+        <datepicker @dateChange="setDate"></datepicker>
         <v-timeline dense   :style="{ height: '90vh' }">
           <v-timeline-item small>timeline item</v-timeline-item>
           <v-timeline-item small> timeline item </v-timeline-item>
@@ -22,19 +22,21 @@
 
 <script>
 import { LMap, LTileLayer } from "vue2-leaflet";
-import RangeDatepicker from "../components/RangeDatepicker";
+import Datepicker from "../components/Datepicker";
 
 export default {
   name: "Timeline",
   components: {
-    RangeDatepicker,
+    Datepicker,
     LMap,
     LTileLayer,
   },
-  data: () => ({}),
+  data: () => ({
+     date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000),
+  }),
   methods: {
-    async getDates(event) {
-      console.log(event);
+    setDate(date) {
+      console.log(date);
     },
   },
 };
