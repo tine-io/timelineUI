@@ -38,7 +38,7 @@
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
+      <v-container fluid id="main-container">
         <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>
@@ -91,3 +91,8 @@ export default {
   },
 };
 </script>
+<style>
+#main-container{
+padding: 0px;
+}
+</style>

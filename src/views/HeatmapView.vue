@@ -3,24 +3,29 @@
     id="scrolling-techniques-6"
     :style="{ height: '100vh', width: '100vw', margin: 0, padding: 0 }"
   >
-    <rangeDatepicker @dateChange="getDates" id="rangeDatepicker" style="z-index: 2">
-    </rangeDatepicker>
+    <v-row id="row1" justify="space-between">
+      <v-col cols="1"> </v-col>
+      <v-col id="rangeDatepicker" cols="10">
+        <rangeDatepicker @dateChange="getDates"> </rangeDatepicker>
+      </v-col>
+      <v-col id="slider" cols="1">
+        <v-card style="max-width: 50px" >
+          <v-slider vertical thumb-label hint="point intensity" step="0.1" max="2" min="0.1" v-model="intensity" @end="sliderEvent"></v-slider>
+        </v-card>
+      </v-col>
+    </v-row>
 
-    <l-map
-      id="map"
-      style="height: 100%; overflow: auto; z-index: 1"
-      :zoom="10"
-      :center="[52.54765, 13.446625]"
-    >
+    <l-map id="map" :zoom="10" :center="[52.54765, 13.446625]">
       <l-tile-layer
         url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
       ></l-tile-layer>
       <Vue2LeafletHeatmap
         :lat-lng="latlngs"
-        :radius="30"
+        :radius="20"
         :min-opacity="0.5"
         :max-zoom="15"
         :blur="40"
+        ref="heatmapComp"
       ></Vue2LeafletHeatmap>
     </l-map>
   </div>
@@ -43,53 +48,24 @@ export default {
     Vue2LeafletHeatmap,
   },
   data: () => ({
+    intensity: 0.1,
     latlngs: [
-      [52.547627, 13.446561, 0.1],
-      [52.547614, 13.446584, 0.1],
-      [52.547615, 13.44658, 0.1],
-      [52.547615, 13.446562, 0.1],
-      [52.547608, 13.446563, 0.1],
-      [52.547624, 13.446596, 0.1],
-      [52.54765, 13.446614, 0.1],
-      [52.547655, 13.446619, 0.1],
-      [52.547654, 13.446622, 0.1],
-      [52.547652, 13.446623, 0.1],
-      [52.547651, 13.446623, 0.1],
-      [52.547651, 13.446622, 0.1],
-      [52.547649, 13.446624, 0.1],
-      [52.54765, 13.446625, 0.1],
-      [52.54765, 13.446625, 0.1],
-      [52.547647, 13.446629, 0.1],
-      [52.547647, 13.446629, 0.1],
-      [52.547645, 13.446632, 0.1],
-      [52.547646, 13.446633, 0.1],
-      [52.547646, 13.446636, 0.1],
-      [52.547643, 13.446633, 0.1],
-      [52.547643, 13.446632, 0.1],
-      [52.547641, 13.446635, 0.1],
-      [52.547641, 13.446639, 0.1],
-      [52.547641, 13.446639, 0.1],
-      [52.547641, 13.446639, 0.1],
-      [52.547641, 13.446638, 0.1],
-      [52.547642, 13.446638, 0.1],
-      [52.547643, 13.446638, 0.1],
-      [52.547644, 13.446638, 0.1],
-      [52.547643, 13.446637, 0.1],
-      [52.547644, 13.446641, 0.1],
-      [52.547646, 13.446642, 0.1],
-      [52.547635, 13.446609, 0.1],
-      [52.547621, 13.446597, 0.1],
-      [52.547634, 13.44662, 0.1],
-      [52.547628, 13.446608, 0.1],
-      [52.547631, 13.446614, 0.1],
-      [52.547612, 13.446597, 0.1],
-      [52.547622, 13.44661, 0.1],
+      [52.547627, 13.446561, 0.1]
     ],
   }),
   methods: {
+    async sliderEvent(event){
+      this.latlngs.forEach(
+        element => element[2] = event
+      )
+      this.$refs.heatmapComp.setLatLngs(this.latlngs)
+    },
     async getDates(event) {
+      console.log(event)
       var startDate = new Date(event[0]);
       var endDate = new Date(event[1]);
+      startDate.setHours(0,0,0,0);
+      endDate.setHours(23,59,59,999);
       updateToken();
       var locations;
       await getLocationsByTimerange(
@@ -100,19 +76,35 @@ export default {
         locations = JSON.parse(result)["locations"];
       });
       this.latlngs = [];
-      locations.forEach(element => {
-        this.latlngs.push([element['point']['coordinates'][0]/10000000, element['point']['coordinates'][1]/10000000, 0.1])
+      console.log(locations)
+      locations.forEach((element) => {
+        this.latlngs.push([
+          element["point"]["coordinates"][0] / 10000000,
+          element["point"]["coordinates"][1] / 10000000,
+          this.intensity,
+        ]);
       });
-      console.log(this.latlngs)
     },
   },
 };
 </script>
 
 <style>
-#rangeDatepicker {
-  position: relative;
-  margin-bottom: -88px;
+#slider {
   z-index: 2;
+}
+#rangeDatepicker {
+  max-height: 20px;
+  max-width: 310px;
+  z-index: 2;
+}
+#row1 {
+  z-index: 0;
+  padding: 10px;
+  margin-bottom: -200px;
+}
+#map {
+  height: 100%;
+  z-index: 1;
 }
 </style>
